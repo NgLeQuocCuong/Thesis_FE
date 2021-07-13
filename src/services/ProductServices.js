@@ -719,7 +719,7 @@ const getCategories = async () => {
     // let options = {
     //     method: 'GET',
     // }
-    // let url = API_CONST.GET_CATEGORRIES;
+    // let url = API_CONST.GET_CATEGORIES;
     // // tokenUtil.updateOrCreateHeader(options);
     // try {
     //     response = await fetch(url, options);

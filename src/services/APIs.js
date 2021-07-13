@@ -1,11 +1,11 @@
-const API_ROOT = process.env.REACT_APP_API_DOMAIN;
+const API_ROOT = 'https://thesis-iris-api.herokuapp.com/';
 const TEST_MODE = false
 
 const LOGIN = API_ROOT + 'api/auth/login'
 const GET_USER_INFO = API_ROOT + 'api/auth/infor'
 const LOGOUT = API_ROOT + 'api/auth/logout'
 
-const GET_CATEGORRIES = API_ROOT + 'api/product/category_tree/'
+const GET_CATEGORIES = API_ROOT + 'api/product/category_tree/'
 const GET_BOOK_INFO = API_ROOT + 'api/product/item_info'
 const GET_RECOMMEND_BOOK = API_ROOT + 'api/product/recommend/'
 const GET_RELATED_BOOK = API_ROOT + 'api/product/related/'
@@ -20,7 +20,7 @@ export const API_CONST = {
     LOGIN,
     GET_USER_INFO,
     LOGOUT,
-    GET_CATEGORRIES,
+    GET_CATEGORIES,
     GET_BOOK_INFO,
     GET_RECOMMEND_BOOK,
     GET_RELATED_BOOK,
