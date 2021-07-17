@@ -42,7 +42,7 @@ class Toast extends Component {
             , {
                 position: toast.POSITION.BOTTOM_LEFT,
                 type: toast.TYPE.ERROR,
-                autoClose: duration || false,
+                autoClose: duration || 10000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,

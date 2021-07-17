@@ -171,10 +171,12 @@ class Field extends PureComponent {
     contentItemFieldGroup = () => {
         let content = null;
         const { value } = this.state;
-        const { type, name, id, isDisabled, placeHolder, className, options, viewOnly } = this.props;
+        const { type, name, id, isDisabled, placeHolder, className, options, viewOnly, size } = this.props;
+        const commonProps = { size }
         if (type === FieldType.TEXT) {
             content = (
                 <Input
+                    {...commonProps}
                     name={name ? name : ''}
                     id={id ? id : ''}
                     value={value}
@@ -190,6 +192,7 @@ class Field extends PureComponent {
         else if (type === FieldType.TEXTAREA) {
             content = (
                 <Input.TextArea
+                    {...commonProps}
                     name={name ? name : ''}
                     id={id ? id : ''}
                     value={value}
@@ -205,6 +208,7 @@ class Field extends PureComponent {
         else if (type === FieldType.SINGLE_SELECT) {
             content = (
                 <Select
+                    {...commonProps}
                     name={name ? name : ''}
                     id={id ? id : ''}
                     value={value}
@@ -232,6 +236,7 @@ class Field extends PureComponent {
         else if (type === FieldType.MULTIPLE_SELECT) {
             content = (
                 <Select
+                    {...commonProps}
                     mode="multiple"
                     name={name ? name : ''}
                     id={id ? id : ''}
@@ -250,6 +255,7 @@ class Field extends PureComponent {
         else if (type === FieldType.MULTIPLE_SELECT_MODE_TAGS) {
             content = (
                 <Select
+                    {...commonProps}
                     mode="tags"
                     name={name ? name : ''}
                     id={id ? id : ''}
@@ -267,6 +273,7 @@ class Field extends PureComponent {
         else if (type === FieldType.RADIO) {
             content = (
                 <Radio.Group
+                    {...commonProps}
                     className={`${viewOnly ? 'view-only-radio' : ''}`}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
@@ -289,6 +296,7 @@ class Field extends PureComponent {
             content = (
                 <Space direction="vertical">
                     <DatePicker
+                        {...commonProps}
                         value={newValue}
                         format={['DD/MM/YYYY', 'DD/MM/YY']}
                         placeholder={placeHolder ? placeHolder : ''}
@@ -305,6 +313,7 @@ class Field extends PureComponent {
             const newValue = value ? moment(value * 1000) : '';
             content = (
                 <TimePicker
+                    {...commonProps}
                     value={newValue}
                     className={`field-time-common ${viewOnly ? 'view-only-input' : ''}`}
                     placeholder={placeHolder ? placeHolder : ''}
@@ -319,6 +328,7 @@ class Field extends PureComponent {
         else if (type === FieldType.CHECKBOX) {
             content = (
                 <Checkbox
+                    {...commonProps}
                     checked={value}
                     className={`field-checkbox-common ${viewOnly ? 'view-only-input' : ''}`}
                     onChange={this.handleChange}
@@ -330,6 +340,7 @@ class Field extends PureComponent {
         else if (type === FieldType.TEXT_WITH_BTN) {
             content = (
                 < Input
+                    {...commonProps}
                     addonBefore={this.props.onClickLeft ? <div className='icon24 arrow-left-icon' onClick={() => { this.setValue(this.props.onClickLeft(value)) }} /> : null}
                     addonAfter={this.props.onClickRight ? <div className='icon24 arrow-right-icon' onClick={() => { this.setValue(this.props.onClickRight(value)) }} /> : null}
                     name={name ? name : ''}
@@ -346,6 +357,7 @@ class Field extends PureComponent {
         } else if (type === FieldType.PASSWORD) {
             content = (
                 <Input.Password
+                    {...commonProps}
                     placeholder="input password"
                     iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     onChange={this.handleChange}
@@ -369,7 +381,7 @@ class Field extends PureComponent {
 
     render() {
         return (
-            <Row className={`mb-4 container-class ${this.props.containerClass ? this.props.containerClass : ''}`}>
+            <Row className={`mb-4 item-input container-class ${this.props.containerClass ? this.props.containerClass : ''}`}>
                 {this.renderLabelField()}
                 {
                     this.props.horizontal &&

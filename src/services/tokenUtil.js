@@ -23,12 +23,17 @@ const updateOrCreateHeader = header => {
 const checkResponseErrorCode = (data, successMessage, customErrorMessage) => {
     if (typeof data === 'string') {
         toastUtil.showErrorMsg(data)
+        return
     }
     if (successMessage === void (0)) {
         successMessage = 'Thành Công!'
     }
-    if (data && data.errorCode > 0) {
-        toastUtil.showErrorMsg(customErrorMessage[data && data.errorCode && `CODE_${data.errorCode}`] || errorMessage[(data && data.errorCode && `CODE_${data.errorCode}`)] || errorMessage.DEFAULTMESSAGE)
+    if (data && data.error_code > 0) {
+        toastUtil.showErrorMsg(
+            (customErrorMessage && customErrorMessage[data && data.error_code && `CODE_${data.error_code}`]) ||
+            errorMessage[(data && data.error_code && `CODE_${data.error_code}`)] ||
+            errorMessage.DEFAULTMESSAGE
+        )
     } else {
         toastUtil.showSuccessMsg(successMessage)
     }

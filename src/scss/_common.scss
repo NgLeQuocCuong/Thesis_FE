@@ -1,37 +1,31 @@
 @font-face {
-    font-family: 'Inter-bold';
-    src: url('../assets/fonts/Inter/Inter-Bold.otf');
+    font-family: "Inter-bold";
+    src: url("../assets/fonts/Inter/Inter-Bold.otf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Inter-regular';
-    src: url('../assets/fonts/Inter/Inter-Regular.otf');
+    font-family: "Inter-regular";
+    src: url("../assets/fonts/Inter/Inter-Regular.otf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Inter-medium';
-    src: url('../assets/fonts/Inter/Inter-Medium.otf');
+    font-family: "Inter-medium";
+    src: url("../assets/fonts/Inter/Inter-Medium.otf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Inter-semibold';
-    src: url('../assets/fonts/Inter/Inter-SemiBold.otf');
+    font-family: "Inter-semibold";
+    src: url("../assets/fonts/Inter/Inter-SemiBold.otf");
     font-display: swap;
 }
 
 html body {
     margin: 0;
-    font-family: 'Inter-regular',
-        -apple-system,
-        BlinkMacSystemFont,
-        'Segoe UI',
-        'Roboto',
-        'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
+    font-family: "Inter-regular", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.02em;
@@ -49,7 +43,7 @@ html body {
 }
 
 .page-wrapper {
-    background-color: #EEFFFF;
+    background-color: #eeffff;
 }
 
 .flexbox {
@@ -57,7 +51,7 @@ html body {
 }
 
 .content-title {
-    font-size:20px;
+    font-size: 20px;
     height: 36px;
     width: 100%;
     padding: 6px 12px 6px 24px;
@@ -74,12 +68,12 @@ html body {
     display: none;
 }
 #main-page {
-    background: rgba($color: #EEFFFF, $alpha: 0.75);
+    background: rgba($color: #eeffff, $alpha: 0.75);
     width: 100vw;
     min-height: 100vh;
 }
-.page-content{
-    min-height: calc(100vh - 56px - 220px);
+.page-content {
+    min-height: calc(100vh - 250px);
 }
 .pointer {
     cursor: pointer;
@@ -89,7 +83,7 @@ a {
     color: inherit;
 }
 .common-content-wrapper {
-    .title{
+    .title {
         padding-left: 12px;
         margin-bottom: 12px;
     }
@@ -100,7 +94,7 @@ a {
     display: flex;
     flex-direction: column;
     margin-bottom: 12px;
-    box-shadow: 0 0 2px 2px rgba($color: #CCC, $alpha: 0.5);
+    box-shadow: 0 0 2px 2px rgba($color: #ccc, $alpha: 0.5);
 }
 
 .content-wrapper {
@@ -112,7 +106,7 @@ a {
     z-index: 0;
 }
 
-.text-link{
+.text-link {
     font-style: italic;
     color: #0056b3;
 }

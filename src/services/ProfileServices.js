@@ -28,6 +28,29 @@ const login = async (data) => {
     }
 }
 
+const register = async (data) => {
+    let response;
+    let options = {
+        method: 'POST',
+        body: data,
+    }
+    let url = API_CONST.REGISTER;
+    //tokenUtil.updateOrCreateHeader(options);
+    try {
+        response = await fetch(url, options);
+        let body = await response.json();
+        tokenUtil.checkResponseErrorCode(body, 'Kiểm tra email của bạn');
+        return [body.error_code === 0, body];
+    }
+    catch (e) {
+        if (response && response.statusText) {
+            return [false, response.statusText];
+        } else {
+            return [false, e.message];
+        }
+    }
+}
+
 const getUserData = async () => {
     const access = localStorage['access']
     if (API_CONST.TEST_MODE && access === 'testAccess') {
@@ -82,4 +105,5 @@ export const ProfileServices = {
     login,
     getUserData,
     logout,
+    register,
 }

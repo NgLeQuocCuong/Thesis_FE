@@ -1,10 +1,19 @@
-.rate-bar{
+.rate-bar {
     display: flex;
 }
 .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 .hide-scrollbar::-webkit-scrollbar {
-    display: none;/* Hide scrollbar for Chrome, Safari and Opera */
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-btn {
+    border-radius: 6px;
+}
+.item-input {
+    margin-bottom: 12px;
 }

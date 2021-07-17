@@ -4,6 +4,7 @@ const TEST_MODE = false
 const LOGIN = API_ROOT + 'api/auth/login'
 const GET_USER_INFO = API_ROOT + 'api/auth/infor'
 const LOGOUT = API_ROOT + 'api/auth/logout'
+const REGISTER = API_ROOT + 'api/auth/register'
 
 const GET_CATEGORIES = API_ROOT + 'api/product/category_tree/'
 const GET_BOOK_INFO = API_ROOT + 'api/product/item_info'
@@ -20,6 +21,7 @@ export const API_CONST = {
     LOGIN,
     GET_USER_INFO,
     LOGOUT,
+    REGISTER,
     GET_CATEGORIES,
     GET_BOOK_INFO,
     GET_RECOMMEND_BOOK,
