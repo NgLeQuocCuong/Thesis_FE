@@ -6,6 +6,7 @@ import FieldType from '../../utils/constants/enums/FieldType'
 import { routeConstants } from '../../utils/constants/RouteConstant'
 import Field from '../../utils/field/Field'
 import { Helmet } from 'react-helmet';
+import { ProfileServices } from '../../services/ProfileServices'
 
 export default class Signin extends PureComponent {
     constructor(props) {
@@ -68,7 +69,7 @@ export default class Signin extends PureComponent {
                 repasswordError: 'Nhập lại mật khẩu của bạn',
             });
             return false;
-        } else if (value !== this.state.repassword) {
+        } else if (value !== this.state.password) {
             this.setState({
                 repasswordError: 'Mật khẩu của bạn không khớp'
             })
@@ -101,12 +102,16 @@ export default class Signin extends PureComponent {
         this.setState({
             isSubmitting: true
         })
+        let data = new FormData()
+        data.append('email', this.state.email)
+        data.append('password', this.state.password)
+        let [success, body] = await ProfileServices.register(data)
         this.setState({
             isSubmitting: false,
         })
-        if (true) {
+        if (success) {
             this.setState({
-                redirect: routeConstants.ROUTE_ROOT,
+                redirect: routeConstants.ROUTE_LOGIN,
             })
         }
     }
@@ -137,6 +142,7 @@ export default class Signin extends PureComponent {
                             id='email'
                             onChange={this.handleChange}
                             errorMessage={emailError}
+                            size='large'
                         />
                         <Field
                             type={FieldType.PASSWORD}
@@ -145,6 +151,7 @@ export default class Signin extends PureComponent {
                             name='password'
                             onChange={this.handleChange}
                             errorMessage={passwordError}
+                            size='large'
                         />
                         <Field
                             type={FieldType.PASSWORD}
@@ -153,9 +160,10 @@ export default class Signin extends PureComponent {
                             name='repassword'
                             onChange={this.handleChange}
                             errorMessage={repasswordError}
+                            size='large'
                         />
                         <Button loading={isSubmitting} onClick={this.handleSubmit} disabled={emailError || passwordError || repasswordError}>Đăng kí</Button>
-                        <span>Bạn đã có tài khoản? <Link className='text-link' to={routeConstants.ROUTE_SIGNIN}>Đăng nhập ngay.</Link></span>
+                        <span>Bạn đã có tài khoản? <Link className='text-link' to={routeConstants.ROUTE_LOGIN}>Đăng nhập ngay.</Link></span>
                     </div>
                 </div>
             </Background >
