@@ -75,7 +75,7 @@ export default class bookDetails extends PureComponent {
         }
         [success, body] = await ProductServices.getCategories()
         if (success) {
-            const categories = body.data.root.children[0]['Sách Tiếng Việt'].children.map(item => commonFunction.reformatCategory(item))
+            const categories = body?.data?.root?.children?.length ? body.data.root.children[0]['Sách Tiếng Việt'].children.map(item => commonFunction.reformatCategory(item)) : []
             this.setState({
                 categories: categories
             })

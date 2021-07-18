@@ -1,10 +1,10 @@
 .main-footer {
-    box-shadow: 0 0 2px 2px rgba($color: #CCC, $alpha: 0.5);
+    box-shadow: $commonShadow;
     background-color: white;
     .content-wrapper {
         display: flex;
-        >*{
-            padding: 24px 24px 0px 24px ;
+        > * {
+            padding: 24px 24px 0px 24px;
             width: 50%;
         }
     }
@@ -14,7 +14,7 @@
         height: fit-content;
     }
     .contact-info {
-        border-right: 1px rgba($color: #CCC, $alpha: 0.5) solid;
+        border-right: 1px rgba($color: #ccc, $alpha: 0.5) solid;
     }
     .title {
         font-size: 16px;

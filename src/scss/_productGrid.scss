@@ -1,4 +1,4 @@
-.product-grid-wrapper{
+.product-grid-wrapper {
     width: 100%;
     .title {
         padding: 0px 12px;
@@ -16,21 +16,28 @@
     padding: 2px;
     display: flex;
     overflow-x: auto;
+    margin-left: -16px;
+    margin-right: -16px;
+    .list-item-wrapper {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 }
-.product-grid-wrapper:hover .product.product-overflow{
+.product-grid-wrapper:hover .product.product-overflow {
     position: relative;
     .scroll-btn {
         display: unset;
     }
 }
 
-.product-grid, .product-overflow {
-    a{
+.product-grid,
+.product-overflow {
+    a {
         text-decoration: none;
         color: inherit;
         width: 232px;
     }
-    img{
+    img {
         max-width: 100%;
         align-self: center;
         max-height: 200px;
@@ -42,17 +49,17 @@
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    >*{
+    > * {
         margin-bottom: 12px;
     }
-    >*:last-child{
+    > *:last-child {
         margin-bottom: 0px;
     }
     .price-wrapper {
         display: flex;
         justify-content: space-between;
     }
-    .name{
+    .name {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -60,7 +67,7 @@
         -webkit-box-orient: vertical;
     }
 }
-.product-item:hover{
+.product-item:hover {
     box-shadow: 0 0 1px 1px #ccc;
 }
 .scroll-btn {
@@ -75,11 +82,10 @@
     position: absolute;
     display: none;
     box-shadow: 0 0 3px 3px #ccc;
-
 }
 .scroll-btn.right {
     right: 0px;
 }
-.scroll-btn:hover{
+.scroll-btn:hover {
     box-shadow: 0 0 5px 5px #ccc;
 }

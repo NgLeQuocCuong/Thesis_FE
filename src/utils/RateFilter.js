@@ -55,7 +55,7 @@ export default class RateFilter extends PureComponent {
                         onClickLeft={this.onClickLeft}
                         onClickRight={this.onClickRight}
                         viewOnly={true}
-                        isDisabled={true}
+                    // isDisabled={true}
                     />
                     <div>sao</div>
                 </div>

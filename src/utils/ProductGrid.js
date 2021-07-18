@@ -1,9 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import ProductListType from './constants/enums/ProductListType'
 import { routeConstants } from './constants/RouteConstant'
 import ProductItem from './ProductItem'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, LoadingOutlined } from '@ant-design/icons'
+import ProductSkeletonUI from './Skeleton/ProductSkeleton'
+import { Row, Col } from 'antd'
 
 export default class ProductGrid extends PureComponent {
     constructor(props) {
@@ -24,15 +26,39 @@ export default class ProductGrid extends PureComponent {
             behavior: 'smooth',
         })
     }
-    render() {
-        const type = this.props.type === ProductListType.OVERFLOW ? 'product-overflow hide-scrollbar' : 'product-grid'
-        return (
-            <div className={`common-content-wrapper product-grid-wrapper`} >
-                <div className='title'>{this.props.title}</div>
-                <div className={`product ${type}`}>
-                    <LeftOutlined className='scroll-btn' onClick={() => this.hScroll(-1)} />
-                    <div className={type} ref={this.ref}>
-                        {this.props.datas && this.props.datas.map && this.props.datas.map(item =>
+    renderGridProduct = (data, loading) => <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+        {
+            loading ?
+                [1, 2, 3, 4].map(item => <Col span={6}><ProductSkeletonUI key={item} /></Col>) :
+                data.map(item =>
+                    <Col span={6}>
+                        <Link to={item.uid ? (routeConstants.SHORT_BOOK_DETAIL + '/' + item.uid) : ''} key={item.uid}>
+                            < ProductItem
+                                image={item.image}
+                                name={item.name}
+                                uid={item.uid}
+                                rate_average={item.rating}
+                                rate_count={item.rating_count}
+                                price={item.price}
+                                discount={item.discount}
+                            />
+                        </Link>
+                    </Col>
+                )
+        }
+    </Row>
+    renderListProduct = (data, loading) => <div className={`product`}>
+        <LeftOutlined className='scroll-btn' onClick={() => this.hScroll(-1)} />
+        <div className='product-overflow hide-scrollbar' ref={this.ref}>
+            {
+                loading ?
+                    [1, 2, 3, 4].map(item =>
+                        <div className='list-item-wrapper'>
+                            <ProductSkeletonUI key={item} />
+                        </div>
+                    ) :
+                    data.map(item =>
+                        <div className='list-item-wrapper'>
                             <Link to={item.uid ? (routeConstants.SHORT_BOOK_DETAIL + '/' + item.uid) : ''} key={item.uid}>
                                 < ProductItem
                                     image={item.image}
@@ -44,10 +70,30 @@ export default class ProductGrid extends PureComponent {
                                     discount={item.discount}
                                 />
                             </Link>
-                        )}
-                    </div>
-                    <RightOutlined className='scroll-btn right' onClick={() => this.hScroll(1)} />
-                </div>
+                        </div>
+                    )}
+        </div>
+        <RightOutlined className='scroll-btn right' onClick={() => this.hScroll(1)} />
+    </div>
+    render() {
+        const type = this.props.type ?? ProductListType.GRID;
+        const hasData = this.props.datas?.length;
+        const { loading } = this.props;
+        return (
+            <div className={`common-content-wrapper product-grid-wrapper`} >
+                <div className='title'>{this.props.title}</div>
+                {
+                    loading || hasData ?
+                        <Fragment>
+                            {
+                                type === ProductListType.GRID && this.renderGridProduct(this.props.datas, loading)
+                            }
+                            {
+                                type === ProductListType.OVERFLOW && this.renderListProduct(this.props.datas, loading)
+                            }
+                        </Fragment> :
+                        <div>Không có sản phẩm nào</div>
+                }
             </div >
         )
     }

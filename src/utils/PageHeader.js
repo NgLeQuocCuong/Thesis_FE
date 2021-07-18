@@ -64,33 +64,40 @@ class PageHeader extends PureComponent {
                                     click={this.showIndex}
                                 />}
                                 childComponent={
-                                    <div className='hover-table'>
-                                        {this.props.categories && this.props.categories.map && this.props.categories.map(item =>
-                                            <HoverWrapper
-                                                position='left'
-                                                rootComponent={<IndexItem
-                                                    key={item.uid}
-                                                    label={item.label}
-                                                    children={item.children || null}
-                                                    url={'/the-loai/' + item.uid}
-                                                    onMouseOver={() => this.focus(item.uid)}
-                                                    className={this.state.focus === item.uid ? 'focus' : ''}
-                                                />}
-                                                childComponent={
-                                                    item.children && item.children.length && item.children.map && <div className='hover-table'>
-                                                        {item.children.map(child =>
-                                                            <IndexItem
-                                                                key={child.uid}
-                                                                label={child.label}
-                                                                children={child.children || null}
-                                                                url={'/the-loai/' + child.uid}
-                                                            />
-                                                        )}
-                                                    </div>}
-                                            >
-                                            </HoverWrapper>
-                                        )}
-                                    </div>
+                                    this.props.categories?.length ?
+                                        <div className='hover-table'>
+                                            {this.props.categories.map(item =>
+                                                <HoverWrapper
+                                                    position='left'
+                                                    rootComponent={<IndexItem
+                                                        key={item.uid}
+                                                        label={item.label}
+                                                        children={item.children || null}
+                                                        url={'/the-loai/' + item.uid}
+                                                        onMouseOver={() => this.focus(item.uid)}
+                                                        className={this.state.focus === item.uid ? 'focus' : ''}
+                                                    />}
+                                                    childComponent={
+                                                        (item.children && item.children.length) ? <div className='hover-table'>
+                                                            {item.children.map(child =>
+                                                                <IndexItem
+                                                                    key={child.uid}
+                                                                    label={child.label}
+                                                                    children={child.children || null}
+                                                                    url={'/the-loai/' + child.uid}
+                                                                />
+                                                            )}
+                                                        </div> : null}
+                                                >
+                                                </HoverWrapper>
+                                            )}
+                                        </div> :
+                                        <div className='hover-table'>
+                                            <IndexItem
+                                                label='Không có danh mục nào'
+                                                className='disable'
+                                            />
+                                        </div>
                                 }
                             />
                         </div>

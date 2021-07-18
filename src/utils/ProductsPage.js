@@ -21,12 +21,14 @@ export default class ProductsPage extends PureComponent {
             author: null,
             authorOptions: [],
             recomendedProducts: [],
+            recomendedLoading: true,
             commonProducts: [],
+            commonLoading: true,
         }
     }
     shouldPrepareData = (prevProps, prevState) => {
         let key
-        for (key of ['userID', 'category']) {
+        for (key of ['category']) {
             if (prevProps[key] !== this.props[key]) return true
         }
         for (key of ['rate', 'minPrice', 'maxPrice', 'publisher', 'author']) {
@@ -54,19 +56,37 @@ export default class ProductsPage extends PureComponent {
         }
         return filter_string.length ? ('?' + filter_string.slice(1)) : ''
     }
-    prepareData = async () => {
+    getCommonProduct = async () => {
+        this.setState({
+            commonLoading: true,
+        });
         let [success, body] = await ProductServices.getCommonProducts(this.prepareFilter())
         if (success) {
             this.setState({
                 commonProducts: body.data.results,
             })
         }
-        [success, body] = await ProductServices.getRecomendedProducts()
+        this.setState({
+            commonLoading: false,
+        })
+    }
+    getRecommendProduct = async () => {
+        this.setState({
+            recomendedLoading: true,
+        });
+        let [success, body] = await ProductServices.getRecomendedProducts()
         if (success) {
             this.setState({
                 recomendedProducts: body.data.recommended_books,
             })
         }
+        this.setState({
+            recomendedLoading: false,
+        })
+    }
+    prepareData = async () => {
+        this.getCommonProduct()
+        this.getRecommendProduct()
     }
     prepareAuthorOptions = async () => {
         let [success, body] = await AuthorServices.getAuthors(this.props.category)
@@ -91,8 +111,9 @@ export default class ProductsPage extends PureComponent {
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.shouldPrepareData(prevProps, prevState)) {
-            this.prepareData()
+            this.getCommonProduct()
         }
+
         if (this.props.category !== prevProps.category) {
             this.prepareAuthorOptions()
         }
@@ -106,7 +127,7 @@ export default class ProductsPage extends PureComponent {
         })
     }
     render() {
-        console.log(this.prepareFilter())
+        const { commonLoading, recomendedLoading } = this.state;
         return (
             <div className='content-wrapper page-content product-page'>
                 <div className='left-content'>
@@ -117,21 +138,21 @@ export default class ProductsPage extends PureComponent {
                     <PublisherFilter value={this.state.publisher} options={this.state.publisherOptions} handleChange={this.handleChange} />
                 </div>
                 <div className='right-content'>
-                    {this.state.recomendedProducts.length ?
+                    {this.props.userId ?
                         <ProductGrid
                             type={ProductListType.OVERFLOW}
                             title='SẢN PHẨM GỢI Ý'
                             numColumn={4}
                             datas={this.state.recomendedProducts}
+                            loading={recomendedLoading}
                         /> : null
                     }
-                    {this.state.commonProducts.length ?
-                        <ProductGrid
-                            title='SẢN PHẨM PHỔ BIẾN'
-                            numColumn={4}
-                            datas={this.state.commonProducts}
-                        /> : null
-                    }
+                    <ProductGrid
+                        title='SẢN PHẨM PHỔ BIẾN'
+                        numColumn={4}
+                        datas={this.state.commonProducts}
+                        loading={commonLoading}
+                    />
                 </div>
             </div>
         )

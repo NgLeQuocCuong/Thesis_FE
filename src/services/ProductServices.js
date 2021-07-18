@@ -714,26 +714,26 @@ const cats =
     "error_code": 0
 }
 const getCategories = async () => {
-    return [true, cats]
-    // let response;
-    // let options = {
-    //     method: 'GET',
-    // }
-    // let url = API_CONST.GET_CATEGORIES;
-    // // tokenUtil.updateOrCreateHeader(options);
-    // try {
-    //     response = await fetch(url, options);
-    //     let body = await response.json();
-    //     //tokenUtil.checkResponseErrorCode(body, options.method);
-    //     return [body.error_code === 0, body];
-    // }
-    // catch (e) {
-    //     if (response && response.statusText) {
-    //         return [false, response.statusText];
-    //     } else {
-    //         return [false, e.message];
-    //     }
-    // }
+    // return [true, cats]
+    let response;
+    let options = {
+        method: 'GET',
+    }
+    let url = API_CONST.GET_CATEGORIES;
+    // tokenUtil.updateOrCreateHeader(options);
+    try {
+        response = await fetch(url, options);
+        let body = await response.json();
+        //tokenUtil.checkResponseErrorCode(body, options.method);
+        return [body.error_code === 0, body];
+    }
+    catch (e) {
+        if (response && response.statusText) {
+            return [false, response.statusText];
+        } else {
+            return [false, e.message];
+        }
+    }
 }
 
 const bookDetails = {
