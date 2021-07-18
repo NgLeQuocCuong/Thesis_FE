@@ -121,6 +121,7 @@ export default class Login extends PureComponent {
                             id='email'
                             onChange={this.handleChange}
                             errorMessage={emailError}
+                            size='large'
                         />
                         <Field
                             type={FieldType.PASSWORD}
@@ -129,6 +130,7 @@ export default class Login extends PureComponent {
                             name='password'
                             onChange={this.handleChange}
                             errorMessage={passwordError}
+                            size='large'
                         />
                         <Link className='align-left text-link' to=''>Quên mật khẩu?</Link>
                         <ProfileContext.Consumer>
