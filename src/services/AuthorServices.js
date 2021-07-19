@@ -17,7 +17,7 @@ const getAuthors = async (categoryID) => {
     let options = {
         method: 'GET',
     }
-    let url = API_CONST.GET_AUTHOR + `?category_id=${categoryID}`;
+    let url = API_CONST.GET_AUTHOR + (categoryID ? `?category_id=${categoryID}` : '');
     // tokenUtil.updateOrCreateHeader(options);
     try {
         response = await fetch(url, options);

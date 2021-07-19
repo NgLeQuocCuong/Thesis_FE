@@ -63,7 +63,7 @@ export default class ProductsPage extends PureComponent {
         let [success, body] = await ProductServices.getCommonProducts(this.prepareFilter())
         if (success) {
             this.setState({
-                commonProducts: body.data.results,
+                commonProducts: body.data?.results ?? [],
             })
         }
         this.setState({
@@ -77,7 +77,7 @@ export default class ProductsPage extends PureComponent {
         let [success, body] = await ProductServices.getRecomendedProducts()
         if (success) {
             this.setState({
-                recomendedProducts: body.data.recommended_books,
+                recomendedProducts: body.data?.recommended_books ?? [],
             })
         }
         this.setState({
