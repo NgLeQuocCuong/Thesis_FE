@@ -77,7 +77,7 @@ export default class bookDetails extends PureComponent {
         const [success, body] = await ProductServices.getRelatedProducts(uid)
         if (success) {
             this.setState({
-                relatedProducts: body.data && body.data.results || [],
+                relatedProducts: body.data?.results || [],
             })
         }
         this.setState({
