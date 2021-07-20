@@ -1,14 +1,14 @@
 $imageHeight: 60vh;
-.rate-detail{
+.rate-detail {
     display: flex;
-    >*{
+    > * {
         margin-right: 6px;
     }
-    .rate-count{
+    .rate-count {
         font-size: 12px;
     }
 }
-.book-title{
+.book-title {
     font-size: 18px;
 }
 .info-detail {
@@ -20,7 +20,7 @@ $imageHeight: 60vh;
     justify-content: space-around;
     width: 50%;
     padding: 12px;
-    .main-image-wrapper{
+    .main-image-wrapper {
         width: $imageHeight;
         height: $imageHeight;
         display: flex;
@@ -36,7 +36,7 @@ $imageHeight: 60vh;
         height: 64px;
         border-radius: 3px;
     }
-    .small-image-wrapper{
+    .small-image-wrapper {
         width: 66px;
         height: 66px;
         border-radius: 3px;
@@ -47,7 +47,7 @@ $imageHeight: 60vh;
     .small-image-wrapper:hover {
         box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
     }
-    .list-image{
+    .list-image {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -72,25 +72,31 @@ $imageHeight: 60vh;
 }
 .price {
     font-size: 14px;
-    color:#c00;
+    color: #c00;
 }
 .discount {
     font-size: 12px;
 }
 .info-row:first-child {
     font-size: 16px;
-    >div:last-child {
+    > div:last-child {
         display: flex;
         justify-content: flex-end;
         padding-right: 24px;
     }
 }
-.default-collapable-wrapper.collapsed>.child{
-    max-height: 40vh;
-    overflow-y: hidden;
+.default-collapable-wrapper {
+    &.collapsed > .child {
+        max-height: 40vh;
+    }
+    > .child {
+        overflow-y: hidden;
+        transition: all 0.2s ease-in-out;
+        max-height: 200vh;
+    }
 }
 .description {
-    *{
+    * {
         max-width: calc(100% - 24px);
     }
 }
@@ -107,11 +113,11 @@ $imageHeight: 60vh;
 .reviews {
     padding: 12px;
 }
-.review-wrapper{
+.review-wrapper {
     border-bottom: 1px rgba($color: $textTwo, $alpha: 0.2) solid;
-    .row-wrapper{
+    .row-wrapper {
         display: flex;
-        >*{
+        > * {
             margin-right: 6x;
         }
     }

@@ -13,8 +13,9 @@ import ProductListType from '../../utils/constants/enums/ProductListType';
 
 const fields = [
     {
-        tag: 'author',
+        tag: 'authors',
         text: 'Tác giả',
+        formatter: data => data.map(item => item.name).join(', ')
     },
     {
         tag: 'number_pages',
@@ -41,12 +42,13 @@ export default class bookDetails extends PureComponent {
             rating: 0,
             rating_count: 0,
             price: 0,
-            authors: '',
+            authors: [],
             number_pages: 0,
             publisher: '',
             issuing_company: '',
             image: [],
             relatedProducts: [],
+            relatedLoading: true,
             description: ''
         }
     }
@@ -59,21 +61,8 @@ export default class bookDetails extends PureComponent {
     componentDidMount() {
         this.prepareData()
     }
-
-    prepareData = async () => {
-        const uid = this.props.match.params.bookID;
-        let [success, body] = await ProductServices.getBookDetails(uid)
-        if (success) {
-            this.setState(Object.assign(body.data, { pageTitle: body.data.name ? body.data.name : 'IRIS' }))
-        }
-        [success, body] = await ProductServices.getRelatedProducts(uid)
-        console.log(body.data)
-        if (success) {
-            this.setState({
-                relatedProducts: body.data && body.data.results,
-            })
-        }
-        [success, body] = await ProductServices.getCategories()
+    prepareCategory = async () => {
+        const [success, body] = await ProductServices.getCategories()
         if (success) {
             const categories = body?.data?.root?.children?.length ? body.data.root.children[0]['Sách Tiếng Việt'].children.map(item => commonFunction.reformatCategory(item)) : []
             this.setState({
@@ -81,8 +70,39 @@ export default class bookDetails extends PureComponent {
             })
         }
     }
+    prepareRelated = async (uid) => {
+        this.setState({
+            relatedLoading: true,
+        })
+        const [success, body] = await ProductServices.getRelatedProducts(uid)
+        if (success) {
+            this.setState({
+                relatedProducts: body.data && body.data.results || [],
+            })
+        }
+        this.setState({
+            relatedLoading: false,
+        })
+    }
+
+    prepareDetail = async uid => {
+        let [success, body] = await ProductServices.getBookDetails(uid)
+        if (success) {
+            this.setState({
+                ...body.data,
+                pageTitle: body.data.name ? body.data.name : 'IRIS',
+            })
+        }
+    }
+    prepareData = async () => {
+        const uid = this.props.match.params.bookID;
+        this.prepareDetail(uid)
+        this.prepareRelated(uid)
+        this.prepareCategory()
+    }
 
     render() {
+        console.log(this.state)
         return (
             <div id='main-page'>
                 <Helmet>
@@ -109,25 +129,21 @@ export default class bookDetails extends PureComponent {
                                     </div>
                                 </div>
                                 {fields.map(field =>
-                                    field.tag === 'athors' ?
-                                        <div className='info-row' key={field.tag}>
-                                            <div className='textTwo'>{field.text}</div>
-                                            <div>{this.state[field.tag][0].name}</div>
-                                        </div> :
-                                        <div className='info-row' key={field.tag}>
-                                            <div className='textTwo'>{field.text}</div>
-                                            <div>{this.state[field.tag]}</div>
-                                        </div>
+                                    <div className='info-row' key={field.tag}>
+                                        <div className='textTwo'>{field.text}</div>
+                                        <div>{field.formatter ? field.formatter(this.state[field.tag]) : this.state[field.tag]}</div>
+                                    </div>
                                 )}
                             </div>
                         </div>
                     </div>
-                    {this.state.relatedProducts && this.state.relatedProducts.length ? <ProductGrid
+                    <ProductGrid
                         type={ProductListType.OVERFLOW}
                         title='SẢN PHẨM TƯƠNG TỰ'
                         numColumn={5}
                         datas={this.state.relatedProducts}
-                    /> : null}
+                        loading={this.state.relatedLoading}
+                    />
                     <div className='wrapper'>
                         <BookDescription uid={this.props.match.params.bookID} description={this.state.description} />
                         <BookRate uid={this.props.match.params.bookID} />

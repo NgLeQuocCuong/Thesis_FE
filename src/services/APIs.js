@@ -1,4 +1,5 @@
-const API_ROOT = 'https://thesis-iris-api.herokuapp.com/';
+// const API_ROOT = 'https://thesis-iris-api.herokuapp.com/';
+const API_ROOT = 'http://127.0.0.1:8000/';
 const TEST_MODE = false
 
 const LOGIN = API_ROOT + 'api/auth/login'
