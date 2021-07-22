@@ -1,4 +1,4 @@
-const convertTimestamp = (timestamp, format) => {
+const convertTimestamp = (timestamp, format = 'dd/mm/yyyy') => {
     if (!timestamp) {
         return timestamp;
     }

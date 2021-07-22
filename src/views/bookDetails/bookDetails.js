@@ -137,13 +137,13 @@ export default class bookDetails extends PureComponent {
                             </div>
                         </div>
                     </div>
-                    <ProductGrid
+                    {/* <ProductGrid
                         type={ProductListType.OVERFLOW}
                         title='SẢN PHẨM TƯƠNG TỰ'
                         numColumn={5}
                         datas={this.state.relatedProducts}
                         loading={this.state.relatedLoading}
-                    />
+                    /> */}
                     <div className='wrapper'>
                         <BookDescription uid={this.props.match.params.bookID} description={this.state.description} />
                         <BookRate uid={this.props.match.params.bookID} />

@@ -1,4 +1,4 @@
-$imageHeight: 60vh;
+$imageHeight: 40vh;
 .rate-detail {
     display: flex;
     > * {
@@ -111,7 +111,29 @@ $imageHeight: 60vh;
     }
 }
 .reviews {
-    padding: 12px;
+    margin-top: -16px;
+    margin-bottom: -16px;
+    .rate-wrapper {
+        padding: 16px 0px;
+        margin: 0 12px;
+        border-bottom: 1px rgba($color: $textTwo, $alpha: 0.2) solid;
+        .header-row {
+            display: flex;
+            // align-items: center;
+            margin-bottom: 12px;
+            .header {
+                @include font-16;
+                margin-left: 12px;
+                font-family: $fontSemibold;
+            }
+        }
+        .user-row {
+            margin-top: 8px;
+            .name {
+                font-family: $fontSemibold;
+            }
+        }
+    }
 }
 .review-wrapper {
     border-bottom: 1px rgba($color: $textTwo, $alpha: 0.2) solid;
@@ -121,4 +143,7 @@ $imageHeight: 60vh;
             margin-right: 6x;
         }
     }
+}
+.rate-wrapper {
+    padding: 16px 12px;
 }
