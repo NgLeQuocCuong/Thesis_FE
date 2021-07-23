@@ -3,6 +3,7 @@ import { ProductServices } from '../../services/ProductServices';
 import CollapableWrapper from '../../utils/CollapableWrapper';
 import { commonFunction } from '../../utils/constants/commonFunction';
 import RateBar from '../../utils/RateBar';
+import IconAndTextButton from '../../utils/IconAndTextButton';
 
 const RateItem = memo(props => {
     const { content, rating, name, updated_at, header } = props;
@@ -21,7 +22,8 @@ export default class BookRate extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            datas: []
+            datas: [],
+            isCollapsed: true,
         }
     }
     async componentDidMount() {
@@ -33,19 +35,37 @@ export default class BookRate extends PureComponent {
         }
     }
 
+    toggle = () => {
+        const isCollapsed = !this.state.isCollapsed
+        this.setState({
+            isCollapsed: isCollapsed,
+        })
+    }
+
     render() {
-        const { datas } = this.state
+        const { datas, isCollapsed } = this.state
         return (
             datas && datas.length ?
                 <div className='common-content-wrapper'>
                     <div className='title'>ĐÁNH GIÁ</div>
-                    <CollapableWrapper>
-                        <div className='reviews'>
-                            {datas.map(data =>
-                                <RateItem {...data} key={data.uid} />
-                            )}
-                        </div>
-                    </CollapableWrapper>
+                    <div className='reviews'>
+                        {(isCollapsed ? datas.slice(0, 3) : datas).map(data =>
+                            <RateItem {...data} key={data.uid} />
+                        )}
+                    </div>
+                    <IconAndTextButton
+                        texts={[{
+                            text: this.state.isCollapsed ? 'Xem thêm' : 'Thu gọn',
+                        }]}
+                        icons={[
+                            {
+                                icon: (this.state.isCollapsed ? 'arrow-down-icon' : 'arrow-up-icon') + ' icon24'
+                            }
+                        ]}
+                        revert={true}
+                        click={this.toggle}
+                        className='center-button'
+                    />
                 </div> : null
         )
     }
