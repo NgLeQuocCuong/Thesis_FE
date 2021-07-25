@@ -24,6 +24,8 @@ export default class ProductsPage extends PureComponent {
             recomendedLoading: true,
             commonProducts: [],
             commonLoading: true,
+            page: 0,
+            count: 0,
         }
     }
     shouldPrepareData = (prevProps, prevState) => {
@@ -36,7 +38,7 @@ export default class ProductsPage extends PureComponent {
         }
         return false
     }
-    prepareFilter = () => {
+    prepareFilter = (page) => {
         const { rate, minPrice, maxPrice, publisher, author } = this.state
         const { userID, category } = this.props
         const filter = {
@@ -46,7 +48,8 @@ export default class ProductsPage extends PureComponent {
             max_price: maxPrice.replace('.', ''),
             publisher: publisher,
             author_id: author,
-            category_id: category || ''
+            category_id: category || '',
+            page: page
         }
         let filter_string = ''
         for (let key in filter) {
@@ -56,14 +59,16 @@ export default class ProductsPage extends PureComponent {
         }
         return filter_string.length ? ('?' + filter_string.slice(1)) : ''
     }
-    getCommonProduct = async () => {
+    getCommonProduct = async (page) => {
         this.setState({
             commonLoading: true,
         });
-        let [success, body] = await ProductServices.getCommonProducts(this.prepareFilter())
+        let [success, body] = await ProductServices.getCommonProducts(this.prepareFilter(page))
         if (success) {
             this.setState({
                 commonProducts: body.data?.results ?? [],
+                page,
+                count: body.data?.count || 0,
             })
         }
         this.setState({
@@ -84,8 +89,8 @@ export default class ProductsPage extends PureComponent {
             recomendedLoading: false,
         })
     }
-    prepareData = async () => {
-        this.getCommonProduct()
+    prepareData = async (page) => {
+        this.getCommonProduct(page)
         this.getRecommendProduct()
     }
     prepareAuthorOptions = async () => {
@@ -105,7 +110,7 @@ export default class ProductsPage extends PureComponent {
         }
     }
     componentDidMount() {
-        this.prepareData()
+        this.prepareData(1)
         this.preparePublisherOptions()
         this.prepareAuthorOptions()
     }
@@ -126,8 +131,13 @@ export default class ProductsPage extends PureComponent {
             [name]: value,
         })
     }
+
+    handlePagination = page => {
+        this.getCommonProduct(page);
+    }
+
     render() {
-        const { commonLoading, recomendedLoading } = this.state;
+        const { commonLoading, recomendedLoading, page, count } = this.state;
         return (
             <div className='content-wrapper page-content product-page'>
                 <div className='left-content'>
@@ -152,6 +162,13 @@ export default class ProductsPage extends PureComponent {
                         numColumn={4}
                         datas={this.state.commonProducts}
                         loading={commonLoading}
+                        pagination={{
+                            pageNo: page,
+                            totalRows: count,
+                            pageSize: 24,
+                            hasPagination: count > 24,
+                            handlePagination: this.handlePagination
+                        }}
                     />
                 </div>
             </div>

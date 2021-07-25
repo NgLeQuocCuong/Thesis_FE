@@ -5,7 +5,7 @@ import { routeConstants } from './constants/RouteConstant'
 import ProductItem from './ProductItem'
 import { LeftOutlined, RightOutlined, LoadingOutlined } from '@ant-design/icons'
 import ProductSkeletonUI from './Skeleton/ProductSkeleton'
-import { Row, Col } from 'antd'
+import { Row, Col, Pagination } from 'antd'
 
 export default class ProductGrid extends PureComponent {
     constructor(props) {
@@ -26,27 +26,43 @@ export default class ProductGrid extends PureComponent {
             behavior: 'smooth',
         })
     }
-    renderGridProduct = (data, loading) => <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-        {
-            loading ?
-                [1, 2, 3, 4].map(item => <Col span={6}><ProductSkeletonUI key={item} /></Col>) :
-                data.map(item =>
-                    <Col span={6}>
-                        <Link to={item.uid ? (routeConstants.SHORT_BOOK_DETAIL + '/' + item.uid) : ''} key={item.uid}>
-                            < ProductItem
-                                image={item.image}
-                                name={item.name}
-                                uid={item.uid}
-                                rate_average={item.rating}
-                                rate_count={item.rating_count}
-                                price={item.price}
-                                discount={item.discount}
-                            />
-                        </Link>
-                    </Col>
-                )
-        }
-    </Row>
+    renderGridProduct = (data, loading, pagination) =>
+        <Fragment>
+            <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+                {loading ?
+                    [1, 2, 3, 4].map(item => <Col span={6}><ProductSkeletonUI key={item} /></Col>) :
+                    data.map(item =>
+                        <Col span={6}>
+                            <Link to={item.uid ? (routeConstants.SHORT_BOOK_DETAIL + '/' + item.uid) : ''} key={item.uid}>
+                                < ProductItem
+                                    image={item.image}
+                                    name={item.name}
+                                    uid={item.uid}
+                                    rate_average={item.rating}
+                                    rate_count={item.rating_count}
+                                    price={item.price}
+                                    discount={item.discount}
+                                />
+                            </Link>
+                        </Col>
+                    )
+                }
+            </Row>
+            {
+                !loading && pagination?.hasPagination &&
+                <Pagination
+                    showSizeChanger={false}
+                    total={pagination.totalRows}
+                    showTotal={(total, range) => {
+                        return `${range[0]}-${range[1]} của ${total}`
+                    }}
+                    defaultPageSize={pagination.pageSize}
+                    current={pagination.pageNo}
+                    onChange={pagination.handlePagination}
+                    className="iris-pagination"
+                />
+            }
+        </Fragment>
     renderListProduct = (data, loading) => <div className={`product`}>
         <LeftOutlined className='scroll-btn' onClick={() => this.hScroll(-1)} />
         <div className='product-overflow hide-scrollbar' ref={this.ref}>
@@ -78,7 +94,8 @@ export default class ProductGrid extends PureComponent {
     render() {
         const type = this.props.type ?? ProductListType.GRID;
         const hasData = this.props.datas?.length;
-        const { loading } = this.props;
+        const { loading, pagination } = this.props;
+        console.log(pagination)
         return (
             <div className={`common-content-wrapper product-grid-wrapper`} >
                 <div className='title'>{this.props.title}</div>
@@ -86,7 +103,7 @@ export default class ProductGrid extends PureComponent {
                     loading || hasData ?
                         <Fragment>
                             {
-                                type === ProductListType.GRID && this.renderGridProduct(this.props.datas, loading)
+                                type === ProductListType.GRID && this.renderGridProduct(this.props.datas, loading, pagination)
                             }
                             {
                                 type === ProductListType.OVERFLOW && this.renderListProduct(this.props.datas, loading)
