@@ -5,7 +5,8 @@ import { routeConstants } from './constants/RouteConstant'
 import ProductItem from './ProductItem'
 import { LeftOutlined, RightOutlined, LoadingOutlined } from '@ant-design/icons'
 import ProductSkeletonUI from './Skeleton/ProductSkeleton'
-import { Row, Col, Pagination } from 'antd'
+import { Row, Col } from 'antd'
+import Pagination from './Pagination'
 
 export default class ProductGrid extends PureComponent {
     constructor(props) {
@@ -50,17 +51,18 @@ export default class ProductGrid extends PureComponent {
             </Row>
             {
                 !loading && pagination?.hasPagination &&
-                <Pagination
-                    showSizeChanger={false}
-                    total={pagination.totalRows}
-                    showTotal={(total, range) => {
-                        return `${range[0]}-${range[1]} của ${total}`
-                    }}
-                    defaultPageSize={pagination.pageSize}
-                    current={pagination.pageNo}
-                    onChange={pagination.handlePagination}
-                    className="iris-pagination"
-                />
+                <Pagination {...pagination} />
+                // <Pagination
+                //     showSizeChanger={false}
+                //     total={pagination.totalRows}
+                //     showTotal={(total, range) => {
+                //         return `${range[0]}-${range[1]} của ${total}`
+                //     }}
+                //     defaultPageSize={pagination.pageSize}
+                //     current={pagination.pageNo}
+                //     onChange={pagination.handlePagination}
+                //     className="iris-pagination"
+                // />
             }
         </Fragment>
     renderListProduct = (data, loading) => <div className={`product`}>
