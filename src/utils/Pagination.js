@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Pagination } from 'antd'
 
-export default class Pagination extends PureComponent {
+export default class IrisPagination extends PureComponent {
     render() {
         const { totalRows, pageSize, pageNo, handlePagination } = this.props;
         return (

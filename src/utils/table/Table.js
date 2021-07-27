@@ -1,12 +1,12 @@
 import React, { Fragment, PureComponent } from 'react';
 import RowTable from './RowTable';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 import TableSkeleton from './TableSkeleton';
 import PaginationSkeleton from './PaginationSkeleton';
 
 class Table extends PureComponent {
     render() {
-        const { data, className, rowKey, columns, isLoading } = this.props;
+        const { data, className, rowKey, columns, isLoading, pagination } = this.props;
         if (!isLoading) {
             return (
                 <div>
@@ -45,15 +45,16 @@ class Table extends PureComponent {
                         </table>
                     </div>
                     {
-                        this.props.pagination &&
-                        <Pagination
-                            currentPage={this.props.pagination.currentPage}
-                            pageSize={this.props.pagination.pageSize}
-                            totalRows={this.props.pagination.totalRows}
-                            apiPagination={this.props.apiPagination}
-                            classNamePagination={this.props.classNamePagination}
-                            leftLabel={this.props.pagination.leftLabel}
-                        />
+                        pagination &&
+                        <Pagination {...pagination} />
+                        // <Pagination
+                        //     currentPage={this.props.pagination.currentPage}
+                        //     pageSize={this.props.pagination.pageSize}
+                        //     totalRows={this.props.pagination.totalRows}
+                        //     apiPagination={this.props.apiPagination}
+                        //     classNamePagination={this.props.classNamePagination}
+                        //     leftLabel={this.props.pagination.leftLabel}
+                        // />
                     }
                 </div>
             )

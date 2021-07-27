@@ -26,9 +26,11 @@ class RowTreeTable extends PureComponent {
                     {columns.map((col, index) =>
                         <td >
                             <div className={col.cellClasses ? col.cellClasses : ''} key={`${col.header}_${index}_${rowIndex}`}>
-                                {index === 0 ? <div style={{ width: width ? `${width}px` : '' }} /> : null}
-                                {index === 0 ? <div className={`${children && children.length ? 'ic-dropdown' : ''} icon-16 ${isOpen ? 'transform-90' : ''}`} onClick={this.toggleChildren} /> : null}
-                                {(col.formatter !== void 0) ? (col.formatter(row[col.cell], row)) : (row[col.name])}
+                                <div className='flexbox'>
+                                    {index === 0 ? <div style={{ width: width ? `${width}px` : '' }} /> : null}
+                                    {index === 0 ? <div className={`${children && children.length ? 'ic-dropdown' : ''} icon-16 ${isOpen ? 'transform-90' : ''}`} onClick={this.toggleChildren} /> : null}
+                                    {(col.formatter !== void 0) ? (col.formatter(row[col.cell], row)) : (row[col.name])}
+                                </div>
                             </div>
                         </td>
                     )}

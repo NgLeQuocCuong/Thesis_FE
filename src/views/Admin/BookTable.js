@@ -58,16 +58,13 @@ export default class BookTable extends PureComponent {
         await this.setState({
             isLoadingTable: true,
         })
-        // let data = {
-        //     pageNo: pageNo ? pageNo : this.state.currentPage,
-        //     pageSize: pageSize ? pageSize : this.state.pageSize,
-        //     name: this.state.name,
-        // }
-        let [success, body] = await ProductServices.getCommonProducts()
+        const page = pageNo ?? this.state.currentPage;
+        let [success, body] = await ProductServices.getCommonProducts(`?page=${page}`)
         if (success && body.data) {
             this.setState({
                 data: body.data.results,
                 totalRows: body.data.count,
+                currentPage: page,
             })
         }
         await this.setState({
@@ -93,15 +90,10 @@ export default class BookTable extends PureComponent {
     }
 
     handlePagination = (currentPage, pageSize) => {
-        this.setState({
-            currentPage: currentPage,
-            pageSize: pageSize,
-        });
         this.prepareData(currentPage, pageSize);
     }
 
     render() {
-        console.log(this.columns)
         return (
             this.props.display ?
                 <Table
@@ -112,12 +104,11 @@ export default class BookTable extends PureComponent {
                     classNamePagination='km-pagination'
                     columns={this.columns}
                     pagination={{
-                        currentPage: this.state.currentPage,
+                        pageNo: this.state.currentPage,
                         pageSize: this.state.pageSize,
                         totalRows: this.state.totalRows,
-                        leftLabel: 'Sách:',
+                        handlePagination: this.handlePagination
                     }}
-                    apiPagination={this.handlePagination}
                 /> : null
         )
     }

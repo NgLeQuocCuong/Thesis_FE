@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
+import { Redirect } from 'react-router-dom';
 import ProfileContext from '../../context/ProfileContext';
 import { ProductServices } from '../../services/ProductServices';
 import { commonFunction } from '../../utils/constants/commonFunction';
 import AdminNavType from '../../utils/constants/enums/AdminNavType';
+import { routeConstants } from '../../utils/constants/RouteConstant';
 import PageHeader from '../../utils/PageHeader';
 import AdminNavigator from './AdminNavigator';
 import AuthorTable from './AuthorTable';
@@ -16,7 +18,7 @@ export default class Admin extends PureComponent {
         super(props);
         this.state = {
             categories: [],
-            active: AdminNavType.CATEGORY,
+            active: AdminNavType.BOOK,
         }
     }
 
@@ -56,7 +58,7 @@ export default class Admin extends PureComponent {
                             </div>
                         </div> :
                         <div>
-
+                            <Redirect to={routeConstants.ROUTE_ROOT} />
                         </div>
                 }
             </ProfileContext.Consumer>
