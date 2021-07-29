@@ -1,5 +1,6 @@
 import { Tooltip } from 'antd';
 import React, { PureComponent } from 'react'
+import { AuthorServices } from '../../services/AuthorServices';
 import Table from '../../utils/table/Table';
 
 export default class AuthorTable extends PureComponent {
@@ -9,7 +10,7 @@ export default class AuthorTable extends PureComponent {
             columns: this.columns,
             data: [],
             currentPage: 1,
-            pageSize: 25,
+            pageSize: 24,
             totalRows: 0,
             isLoadingTable: true,
         }
@@ -18,8 +19,8 @@ export default class AuthorTable extends PureComponent {
     columns = [
         {
             header: 'Tác giả',
-            name: 'images',
-            cell: 'images',
+            name: 'name',
+            cell: 'name',
             headerClasses: 'table-header',
             cellClasses: 'table-cell',
         },
@@ -37,11 +38,18 @@ export default class AuthorTable extends PureComponent {
         await this.setState({
             isLoadingTable: true,
         })
-        // let data = {
-        //     pageNo: pageNo ? pageNo : this.state.currentPage,
-        //     pageSize: pageSize ? pageSize : this.state.pageSize,
-        //     name: this.state.name,
-        // }
+        const page = pageNo ?? this.state.currentPage;
+        let [success, body] = await AuthorServices.getAuthors({
+            page,
+            page_size: 24,
+        })
+        if (success && body.data) {
+            this.setState({
+                data: body.data.results,
+                totalRows: body.data.count,
+                currentPage: page,
+            })
+        }
         await this.setState({
             isLoadingTable: false,
         })
@@ -73,6 +81,7 @@ export default class AuthorTable extends PureComponent {
     }
 
     render() {
+        console.log(this.state.data)
         return (
             this.props.display ?
                 <Table
@@ -83,12 +92,11 @@ export default class AuthorTable extends PureComponent {
                     classNamePagination='km-pagination'
                     columns={this.state.columns}
                     pagination={{
-                        currentPage: this.state.currentPage,
+                        pageNo: this.state.currentPage,
                         pageSize: this.state.pageSize,
                         totalRows: this.state.totalRows,
-                        leftLabel: 'Tác giả:',
+                        handlePagination: this.handlePagination
                     }}
-                    apiPagination={this.handlePagination}
                 /> : null
         )
     }

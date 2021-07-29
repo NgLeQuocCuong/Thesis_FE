@@ -48,7 +48,7 @@ export default class BookTable extends PureComponent {
             columns: [],
             data: [],
             currentPage: 1,
-            pageSize: 25,
+            pageSize: 24,
             totalRows: 0,
             isLoadingTable: true,
         }

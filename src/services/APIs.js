@@ -14,7 +14,7 @@ const GET_RELATED_BOOK = API_ROOT + 'api/product/related/'
 const GET_COMMON_BOOK = API_ROOT + 'api/product/list_product/'
 const GET_RATES = API_ROOT + 'api/interaction/list_interaction'
 
-const GET_AUTHOR = API_ROOT + 'api/product/author'
+const GET_AUTHOR = API_ROOT + 'api/product/author/'
 const GET_PUBLISHER = API_ROOT + 'api/product/publisher'
 
 export const API_CONST = {

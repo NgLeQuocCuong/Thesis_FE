@@ -94,7 +94,10 @@ export default class ProductsPage extends PureComponent {
         this.getRecommendProduct()
     }
     prepareAuthorOptions = async () => {
-        let [success, body] = await AuthorServices.getAuthors(this.props.category)
+        const params = {
+            category: this.props.category ?? '',
+        }
+        let [success, body] = await AuthorServices.getAuthors(params)
         if (success) {
             this.setState({
                 authorOptions: body.data && body.data.results && body.data.results.map(item => { return { label: item.name, value: item.uid } }),

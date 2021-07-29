@@ -48,8 +48,20 @@ const reformatCategory = cat => {
         children: children,
     }
 }
+
+const prepareParam = filter => {
+    let filter_string = '';
+    for (let key in filter) {
+        if (filter[key]) {
+            filter_string = filter_string + `&${key}=${filter[key]}`
+        }
+    }
+    return filter_string.length ? ('?' + filter_string.slice(1)) : ''
+}
+
 export const commonFunction = {
     convertTimestamp,
     getParamValue,
     reformatCategory,
+    prepareParam,
 }

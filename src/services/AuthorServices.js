@@ -1,23 +1,15 @@
 import { API_CONST } from "./APIs";
 import fetch from 'cross-fetch';
+import { commonFunction } from "../utils/constants/commonFunction";
 // import { tokenUtil } from './tokenUtil';
 
 
-const getAuthors = async (categoryID) => {
-    if (API_CONST.TEST_MODE) {
-        return [true, {
-            data: [
-                'Tác giả 1',
-                'Tác giả 2',
-                'Tác giả 3',
-            ]
-        }]
-    }
+const getAuthors = async (param) => {
     let response;
     let options = {
         method: 'GET',
     }
-    let url = API_CONST.GET_AUTHOR + (categoryID ? `?category_id=${categoryID}` : '');
+    let url = API_CONST.GET_AUTHOR + commonFunction.prepareParam(param);
     // tokenUtil.updateOrCreateHeader(options);
     try {
         response = await fetch(url, options);
