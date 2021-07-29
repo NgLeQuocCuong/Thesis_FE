@@ -153,12 +153,18 @@
     thead {
         position: sticky;
         top: 0px;
+        z-index: 0;
     }
+    // tbody {
+    //     height: calc(100vh - 113px);
+    //     overflow: ;
+    // }
 }
 
 .table-container thead th {
     border-bottom: 1px solid #e6e6e6;
     z-index: 2;
+    background-color: white;
 }
 .df-table-container {
     width: 100%;
@@ -232,19 +238,22 @@
     align-items: center;
 }
 
-.actions > div > * {
-    width: 36px;
-    height: 36px;
-    margin-left: 12px;
-    display: visible;
-    //opacity: 0;
-    z-index: -1;
-    border-radius: 50%;
-    background-size: 24px;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: background-color 0.2s;
-    cursor: pointer;
+.actions > div {
+    .edit-btn,
+    .del-btn {
+        width: 36px;
+        height: 36px;
+        margin-left: 12px;
+        display: visible;
+        //opacity: 0;
+        z-index: -1;
+        border-radius: 50%;
+        background-size: 24px;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: background-color 0.2s;
+        cursor: pointer;
+    }
 }
 
 .actions > div > *:first-child {
@@ -428,4 +437,8 @@
     border-radius: 6px;
     margin-left: 16px;
     margin-right: 16px;
+}
+
+.category-table.table-container {
+    height: calc(100vh - 68px);
 }

@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd';
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import TreeTable from '../../utils/table/TreeTable';
 
 export default class CategoryTable extends PureComponent {
@@ -15,18 +15,24 @@ export default class CategoryTable extends PureComponent {
         }
     }
 
+    actionBaches = (cell, row) => {
+        return (
+            <Fragment>
+                <Tooltip title={'Chỉnh sửa'} placement="bottom" destroyTooltipOnHide={true}>
+                    <div className="edit-btn" onClick={() => this.handleOpenUpdate(cell, row)}></div>
+                </Tooltip>
+                <Tooltip title={'Xoá'} placement="bottom" destroyTooltipOnHide={true}>
+                    <div className="del-btn" onClick={(e) => this.handleDelBtn(cell, row)}></div>
+                </Tooltip>
+            </Fragment>
+        )
+    }
+
     columns = [
         {
             header: 'Thể loại',
             name: 'label',
             cell: 'label',
-            headerClasses: 'table-header',
-            cellClasses: 'table-cell',
-        },
-        {
-            header: 'Thể loại cha',
-            name: 'name',
-            cell: 'name',
             headerClasses: 'table-header',
             cellClasses: 'table-cell',
         },
@@ -58,19 +64,6 @@ export default class CategoryTable extends PureComponent {
         this.prepareData();
     }
 
-    actionBaches = (cell, row) => {
-        return (
-            <div>
-                <Tooltip title={'Chỉnh sửa'} placement="bottom" destroyTooltipOnHide={true}>
-                    <div className="edit-btn" onClick={() => this.handleOpenUpdate(cell, row)}></div>
-                </Tooltip>
-                <Tooltip title={'Xoá'} placement="bottom" destroyTooltipOnHide={true}>
-                    <div className="del-btn" onClick={(e) => this.handleDelBtn(cell, row)}></div>
-                </Tooltip>
-            </div>
-        )
-    }
-
     handlePagination = (currentPage, pageSize) => {
         this.setState({
             currentPage: currentPage,
@@ -86,7 +79,7 @@ export default class CategoryTable extends PureComponent {
                     rowKey='uid'
                     isLoading={this.state.isLoadingTable}
                     data={this.props.data}
-                    className='df-table-container'
+                    className='df-table-container category-table'
                     classNamePagination='km-pagination'
                     columns={this.state.columns}
                 // pagination={{

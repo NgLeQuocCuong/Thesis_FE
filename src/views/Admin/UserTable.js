@@ -51,7 +51,6 @@ export default class UserTable extends PureComponent {
             name: this.state.name,
         }
         let [success, body] = await AdminUserServices.getUsers(data.pageNo, data.pageSize, data.name);
-        console.log(body)
         if (success) {
             if (body.data) {
                 this.setState({
@@ -85,10 +84,6 @@ export default class UserTable extends PureComponent {
     }
 
     handlePagination = (currentPage, pageSize) => {
-        this.setState({
-            currentPage: currentPage,
-            pageSize: pageSize,
-        });
         this.prepareData(currentPage, pageSize);
     }
 
@@ -103,10 +98,10 @@ export default class UserTable extends PureComponent {
                     classNamePagination='km-pagination'
                     columns={this.state.columns}
                     pagination={{
-                        currentPage: this.state.currentPage,
+                        pageNo: this.state.currentPage,
                         pageSize: this.state.pageSize,
                         totalRows: this.state.totalRows,
-                        leftLabel: 'Người dùng:',
+                        handlePagination: this.handlePagination
                     }}
                     apiPagination={this.handlePagination}
                 /> : null

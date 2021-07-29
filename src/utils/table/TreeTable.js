@@ -20,6 +20,7 @@ class RowTreeTable extends PureComponent {
         const { row, rowKey, rowIndex, width, columns, tabWidth, className } = this.props;
         const { children } = row
         const { isOpen } = this.state
+        console.log(columns)
         return (
             <Fragment>
                 <tr className={`row-table ${className || ''}`} key={rowKey ? rowKey : rowIndex} >

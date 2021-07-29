@@ -1,22 +1,23 @@
 .default-hover-wrapper {
     position: relative;
-    >.root{
+    > .root {
         height: 100%;
     }
-    >.child {
+    > .child {
         position: absolute;
     }
-    >.child.left {
+    > .child.left {
         left: 100%;
         top: -12px;
     }
-    >.child.align-right {
+    > .child.align-right {
         right: 0;
     }
 }
 
-.hover-table{
+.hover-table {
     z-index: 1200;
+    position: relative;
     transition: all 2s !important;
     padding: 12px;
     box-shadow: 0 0 2px 2px rgba(204, 204, 204, 0.5);
