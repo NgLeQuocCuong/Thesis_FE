@@ -81,7 +81,6 @@ export default class Login extends PureComponent {
         data.append('email', this.state.email)
         data.append('password', this.state.password)
         let [success, body] = await ProfileServices.login(data)
-        console.log(body)
         this.setState({
             isSubmitting: false,
         })

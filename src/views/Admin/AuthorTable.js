@@ -83,7 +83,6 @@ export default class AuthorTable extends PureComponent {
     }
 
     render() {
-        console.log(this.state.data)
         return (
             this.props.display ?
                 <Table

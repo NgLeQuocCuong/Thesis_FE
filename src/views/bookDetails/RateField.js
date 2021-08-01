@@ -4,7 +4,7 @@ import { ProductServices } from '../../services/ProductServices';
 import FieldType from '../../utils/constants/enums/FieldType';
 import Field from '../../utils/field/Field';
 import RateBar from '../../utils/RateBar';
-import SendText from '../../utils/SendText';
+import { commonFunction } from '../../utils/constants/commonFunction';
 
 export default class RateField extends PureComponent {
     state = {
@@ -14,6 +14,7 @@ export default class RateField extends PureComponent {
         number: 5,
         showInput: false,
         placeholder: '',
+        time: 0,
     }
     componentDidMount() {
         const getRandomInt = max => Math.floor(Math.random() * max);
@@ -33,8 +34,14 @@ export default class RateField extends PureComponent {
         if (this.props.userProfile?.uid) {
             let [success, body] = await ProductServices.getRateOfUser(this.props.bookId)
             if (success) {
-                if (body) {
-
+                if (body?.data) {
+                    this.setState({
+                        rated: true,
+                        header: body.data.header,
+                        content: body.data.content,
+                        number: body.data.rating,
+                        time: body.data.updated_at,
+                    })
                 } else {
                     this.setState({
                         rated: false,
@@ -68,13 +75,17 @@ export default class RateField extends PureComponent {
         data.append('content', content)
         data.append('header', header)
         let [success, body] = await ProductServices.rate(data)
+        if (success) {
+            this.setState({
+                showInput: false,
+            })
+            this.props.updateCallback()
+        }
     }
 
     render() {
-        const { rated, content, header, number, showInput, placeholder } = this.state;
-        console.log(rated)
+        const { rated, content, header, number, showInput, placeholder, time } = this.state;
         return rated ?
-            null :
             <div className='add-rate'>
                 {
                     showInput ?
@@ -102,15 +113,61 @@ export default class RateField extends PureComponent {
                                 onChange={this.handleChange}
                                 value={content}
                                 label='Nội dung'
-                                placeHolder='Nội dung nhận xét'
+                                placeHolder='Nội dung đánh giá'
                             />
-                            <Button onClick={this.createRated}>Thêm nhận xét</Button>
+                            <Button onClick={this.createRated}>Cập nhật đánh giá</Button>
+                        </div> :
+                        <div className='reviews'>
+                            <div className='rate-wrapper'>
+                                <div className='rate-item'>
+                                    <div className='header-row'>
+                                        <RateBar rate={number} />
+                                        <div className='header'>{header}</div>
+                                    </div>
+                                    <div className='content-row'>{content}</div>
+                                    <div className='user-row'>Bạn đã đánh giá vào {commonFunction.convertTimestamp(time)}</div>
+                                </div>
+                                <Button onClick={this.showInput}>Cập nhật đánh giá</Button>
+                            </div>
+                        </div>
+                }
+            </div> :
+            <div className='add-rate'>
+                {
+                    showInput ?
+                        <div className='input-row'>
+                            <div className='rate-selector'>
+                                <RateBar
+                                    onClick={rate => this.handleChange({
+                                        name: 'number',
+                                        value: rate,
+                                    })}
+                                    rate={number}
+                                />
+                            </div>
+                            <Field
+                                type={FieldType.TEXT}
+                                name='header'
+                                onChange={this.handleChange}
+                                value={header}
+                                label='Tiêu đề'
+                                placeHolder={placeholder}
+                            />
+                            <Field
+                                type={FieldType.TEXTAREA}
+                                name='content'
+                                onChange={this.handleChange}
+                                value={content}
+                                label='Nội dung'
+                                placeHolder='Nội dung đánh giá'
+                            />
+                            <Button onClick={this.createRated}>Thêm đánh giá</Button>
                         </div> :
                         <Fragment>
                             <div>
-                                Bạn chưa nhận xét sản phẩm này
+                                Bạn chưa đánh giá sản phẩm này
                             </div>
-                            <Button onClick={this.showInput}>Thêm nhận xét</Button>
+                            <Button onClick={this.showInput}>Thêm đánh giá</Button>
                         </Fragment>
                 }
             </div>

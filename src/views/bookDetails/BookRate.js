@@ -8,7 +8,7 @@ import withUserProfile from '../../HOC/UserProfileHOC';
 import RateField from './RateField';
 import IrisPagination from '../../utils/Pagination';
 
-const RateItem = memo(props => {
+export const RateItem = memo(props => {
     const { content, rating, name, updated_at, header } = props;
     return <div className='rate-wrapper'>
         <div className='rate-item'>
@@ -78,6 +78,7 @@ class BookRate extends PureComponent {
                                 <RateField
                                     bookId={this.props.uid}
                                     userProfile={userProfile}
+                                    updateCallback={this.getRates}
                                 />
                             </Fragment>
                             : null

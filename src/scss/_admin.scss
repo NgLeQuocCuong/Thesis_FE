@@ -40,4 +40,16 @@
     width: 80%;
     box-shadow: $commonShadow;
     background-color: white;
+
+    .user-container {
+        cursor: pointer;
+        color: #1768b2;
+    }
+}
+
+.user-view-modal {
+    width: 80vw !important;
+    .ant-modal-title {
+        font-family: $fontSemibold;
+    }
 }

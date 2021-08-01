@@ -97,7 +97,6 @@ export default class ProductGrid extends PureComponent {
         const type = this.props.type ?? ProductListType.GRID;
         const hasData = this.props.datas?.length;
         const { loading, pagination } = this.props;
-        console.log(pagination)
         return (
             <div className={`common-content-wrapper product-grid-wrapper`} >
                 <div className='title'>{this.props.title}</div>
