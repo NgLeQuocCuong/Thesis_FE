@@ -71,18 +71,18 @@ export default class bookDetails extends PureComponent {
         }
     }
     prepareRelated = async (uid) => {
-        this.setState({
-            relatedLoading: true,
-        })
-        const [success, body] = await ProductServices.getRelatedProducts(uid)
-        if (success) {
-            this.setState({
-                relatedProducts: body.data?.results || [],
-            })
-        }
-        this.setState({
-            relatedLoading: false,
-        })
+        // this.setState({
+        //     relatedLoading: true,
+        // })
+        // const [success, body] = await ProductServices.getRelatedProducts(uid)
+        // if (success) {
+        //     this.setState({
+        //         relatedProducts: body.data?.results || [],
+        //     })
+        // }
+        // this.setState({
+        //     relatedLoading: false,
+        // })
     }
 
     prepareDetail = async uid => {

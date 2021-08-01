@@ -736,6 +736,29 @@ const getCategories = async () => {
     }
 }
 
+const rate = async data => {
+    let response;
+    let options = {
+        method: 'POST',
+        body: data,
+    }
+    let url = API_CONST.RATE;
+    tokenUtil.updateOrCreateHeader(options);
+    try {
+        response = await fetch(url, options);
+        let body = await response.json();
+        tokenUtil.checkResponseErrorCode(body, 'Thêm đánh giá thành công');
+        return [body.error_code === 0, body];
+    }
+    catch (e) {
+        if (response && response.statusText) {
+            return [false, response.statusText];
+        } else {
+            return [false, e.message];
+        }
+    }
+}
+
 const bookDetails = {
     uid: 'defautId',
     name: 'Tên sách',
@@ -864,7 +887,7 @@ const getRecomendedProducts = async (userID, categoryID) => {
     let options = {
         method: 'GET',
     }
-    let url = API_CONST.GET_RECOMMEND_BOOK// + `?userID=${userID}&categoryID=${categoryID}`;
+    let url = API_CONST.GET_RECOMMEND_BOOK // + `?userID=${userID}&categoryID=${categoryID}`;
     tokenUtil.updateOrCreateHeader(options);
     try {
         response = await fetch(url, options);
@@ -906,12 +929,12 @@ const getCommonProducts = async (filter) => {
     }
 }
 
-const getRate = async bookID => {
+const getRate = async params => {
     let response;
     let options = {
         method: 'GET',
     }
-    let url = API_CONST.GET_RATES + `?id=${bookID}`;
+    let url = API_CONST.GET_RATES + params;
     // tokenUtil.updateOrCreateHeader(options);
     try {
         response = await fetch(url, options);
@@ -927,6 +950,29 @@ const getRate = async bookID => {
         }
     }
 }
+
+const getRateOfUser = async bookID => {
+    let response;
+    let options = {
+        method: 'GET',
+    }
+    let url = API_CONST.GET_RATE_OF_USER + `?uid=${bookID}`;
+    tokenUtil.updateOrCreateHeader(options);
+    try {
+        response = await fetch(url, options);
+        let body = await response.json();
+        //tokenUtil.checkResponseErrorCode(body, options.method);
+        return [body.error_code === 0, body];
+    }
+    catch (e) {
+        if (response && response.statusText) {
+            return [false, response.statusText];
+        } else {
+            return [false, e.message];
+        }
+    }
+}
+
 export const ProductServices = {
     getCategories,
     getBookDetails,
@@ -935,4 +981,6 @@ export const ProductServices = {
     getCommonProducts,
     getBookDescription,
     getRate,
+    getRateOfUser,
+    rate,
 }

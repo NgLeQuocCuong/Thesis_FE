@@ -108,7 +108,7 @@ class PageHeader extends PureComponent {
                     <div className='flex-align-right'>
                         <ProfileContext.Consumer>
                             {
-                                profile => profile.uid === 0 ?
+                                profile => profile.uid === null ?
                                     <IconAndTextButton
                                         className='custom-text-seperator'
                                         icons={[

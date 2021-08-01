@@ -16,6 +16,19 @@ export default class AuthorTable extends PureComponent {
         }
     }
 
+    actionBaches = (cell, row) => {
+        return (
+            <div>
+                <Tooltip title={'Chỉnh sửa'} placement="bottom" destroyTooltipOnHide={true}>
+                    <div className="edit-btn" onClick={() => this.handleOpenUpdate(cell, row)}></div>
+                </Tooltip>
+                <Tooltip title={'Xoá'} placement="bottom" destroyTooltipOnHide={true}>
+                    <div className="del-btn" onClick={(e) => this.handleDelBtn(cell, row)}></div>
+                </Tooltip>
+            </div>
+        )
+    }
+
     columns = [
         {
             header: 'Tác giả',
@@ -59,18 +72,7 @@ export default class AuthorTable extends PureComponent {
         this.prepareData();
     }
 
-    actionBaches = (cell, row) => {
-        return (
-            <div>
-                <Tooltip title={'Chỉnh sửa'} placement="bottom" destroyTooltipOnHide={true}>
-                    <div className="edit-btn" onClick={() => this.handleOpenUpdate(cell, row)}></div>
-                </Tooltip>
-                <Tooltip title={'Xoá'} placement="bottom" destroyTooltipOnHide={true}>
-                    <div className="del-btn" onClick={(e) => this.handleDelBtn(cell, row)}></div>
-                </Tooltip>
-            </div>
-        )
-    }
+
 
     handlePagination = (currentPage, pageSize) => {
         this.setState({

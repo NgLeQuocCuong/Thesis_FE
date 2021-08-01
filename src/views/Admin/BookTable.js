@@ -20,11 +20,12 @@ export default class BookTable extends PureComponent {
                 cell: 'authors',
                 headerClasses: 'table-header',
                 cellClasses: 'table-cell',
+                formatter: this.formatAuthor,
             },
             {
                 header: 'Số trang',
-                name: 'num_pages',
-                cell: 'num_pages',
+                name: 'number_pages',
+                cell: 'number_pages',
                 headerClasses: 'table-header',
                 cellClasses: 'table-cell',
             },
@@ -89,6 +90,10 @@ export default class BookTable extends PureComponent {
         )
     }
 
+    formatAuthor = cell => {
+        return cell?.length ? cell.map(item => item.name).join(', ') : ''
+    }
+
     handlePagination = (currentPage, pageSize) => {
         this.prepareData(currentPage, pageSize);
     }
@@ -109,7 +114,8 @@ export default class BookTable extends PureComponent {
                         totalRows: this.state.totalRows,
                         handlePagination: this.handlePagination
                     }}
-                /> : null
+                />
+                : null
         )
     }
 }

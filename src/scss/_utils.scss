@@ -26,3 +26,13 @@
 .ant-col {
     position: unset;
 }
+
+.input-addon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.middle {
+        width: 30px;
+        height: 30px;
+    }
+}

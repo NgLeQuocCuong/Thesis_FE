@@ -49,7 +49,7 @@ export default class ProductsPage extends PureComponent {
             publisher: publisher,
             author_id: author,
             category_id: category || '',
-            page: page
+            page: page,
         }
         let filter_string = ''
         for (let key in filter) {

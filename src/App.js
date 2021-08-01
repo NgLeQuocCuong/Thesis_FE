@@ -55,7 +55,7 @@ class App extends PureComponent {
     this.state = {
       name: '',
       isAdmin: false,
-      uid: 0,
+      uid: null,
     }
   }
   componentDidMount() {
@@ -66,9 +66,9 @@ class App extends PureComponent {
     let [success, body] = await ProfileServices.getUserData()
     if (success) {
       this.setState({
-        name: (body.data && body.data.name) || '',
+        name: (body.data && body.data.name) || null,
         isAdmin: (body.data && body.data.is_admin) || false,
-        uid: (body.data && body.data.uid) || 0,
+        uid: (body.data && body.data.uid) || null,
       })
     }
   }

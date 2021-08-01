@@ -23,7 +23,7 @@ class Table extends PureComponent {
                                     data.length !== 0 &&
                                     data.map((row, index) => {
                                         return (
-                                            < RowTable
+                                            <RowTable
                                                 key={row[rowKey]}
                                                 rowKey={row[rowKey]}
                                                 rowIndex={index}
@@ -34,14 +34,14 @@ class Table extends PureComponent {
                                     })
                                 }
                             </tbody>
-                            {
+                            {/* {
                                 (!data || data.length === 0) &&
                                 <tbody>
                                     <tr>
                                         <td className="super-table-row super-row-no-data last-row" colSpan={columns ? columns.length : null}><div>{'Không có dữ liệu'}</div></td>
                                     </tr>
                                 </tbody>
-                            }
+                            } */}
                         </table>
                     </div>
                     {

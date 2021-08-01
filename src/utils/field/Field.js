@@ -171,8 +171,11 @@ class Field extends PureComponent {
     contentItemFieldGroup = () => {
         let content = null;
         const { value } = this.state;
-        const { type, name, id, isDisabled, placeHolder, className, options, viewOnly, size } = this.props;
-        const commonProps = { size }
+        const { type, name, id, isDisabled, placeHolder, className, options, viewOnly, size, ...rest } = this.props;
+        const commonProps = {
+            size,
+            ...rest,
+        }
         if (type === FieldType.TEXT) {
             content = (
                 <Input

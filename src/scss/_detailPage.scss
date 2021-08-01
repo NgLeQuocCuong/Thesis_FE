@@ -106,7 +106,7 @@ $imageHeight: 40vh;
     .common-content-wrapper {
         width: calc(50% - 6px);
     }
-    .common-content-wrapper:only-child {
+    > .common-content-wrapper:only-child {
         width: 70%;
     }
 }
@@ -149,4 +149,24 @@ $imageHeight: 40vh;
 }
 .rate-wrapper {
     padding: 16px 12px;
+}
+
+.add-rate {
+    margin-left: 12px;
+    margin-right: 12px;
+    .input-row {
+        position: relative;
+        .rate-selector {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+        }
+    }
+    .label-field-group {
+        margin-bottom: 12px;
+    }
+}
+
+.margin {
+    margin-top: 24px;
 }

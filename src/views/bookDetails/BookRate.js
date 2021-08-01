@@ -1,9 +1,12 @@
-import React, { memo, PureComponent } from 'react'
+import React, { Fragment, memo, PureComponent } from 'react'
 import { ProductServices } from '../../services/ProductServices';
 import CollapableWrapper from '../../utils/CollapableWrapper';
 import { commonFunction } from '../../utils/constants/commonFunction';
 import RateBar from '../../utils/RateBar';
 import IconAndTextButton from '../../utils/IconAndTextButton';
+import withUserProfile from '../../HOC/UserProfileHOC';
+import RateField from './RateField';
+import IrisPagination from '../../utils/Pagination';
 
 const RateItem = memo(props => {
     const { content, rating, name, updated_at, header } = props;
@@ -18,55 +21,95 @@ const RateItem = memo(props => {
         </div>
     </div>
 })
-export default class BookRate extends PureComponent {
+class BookRate extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             datas: [],
-            isCollapsed: true,
+            rated: false,
+            page: 1,
+            pageSize: 5,
+            totalRates: 0,
         }
     }
-    async componentDidMount() {
-        let [success, body] = await ProductServices.getRate(this.props.uid)
+
+    componentDidMount() {
+        this.getRates()
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.uid !== prevProps.uid) {
+            this.getRates(1)
+        }
+    }
+
+
+    getRates = async (page, pageSize) => {
+        const params = {
+            uid: this.props.uid,
+            page: page ?? this.state.page,
+            page_size: pageSize ?? this.state.pageSize,
+        }
+        let [success, body] = await ProductServices.getRate(commonFunction.prepareParam(params))
         if (success) {
             this.setState({
-                datas: body.data && body.data.results,
+                datas: body?.data?.content || [],
+                totalRates: body?.data?.totalRows,
+                page: body?.data?.currentPage,
+                pageSize: body?.data?.pageSize,
             })
         }
     }
 
-    toggle = () => {
-        const isCollapsed = !this.state.isCollapsed
-        this.setState({
-            isCollapsed: isCollapsed,
-        })
+    handlePagination = (pageNo, pageSize) => {
+        this.getRates(pageNo, pageSize)
     }
 
     render() {
-        const { datas, isCollapsed } = this.state
+        const { datas, totalRates, pageSize, page } = this.state;
+        const { userProfile } = this.props;
         return (
-            datas && datas.length ?
+            datas?.length || userProfile?.uid ?
                 <div className='common-content-wrapper'>
-                    <div className='title'>ĐÁNH GIÁ</div>
-                    <div className='reviews'>
-                        {(isCollapsed ? datas.slice(0, 3) : datas).map(data =>
-                            <RateItem {...data} key={data.uid} />
-                        )}
-                    </div>
-                    <IconAndTextButton
-                        texts={[{
-                            text: this.state.isCollapsed ? 'Xem thêm' : 'Thu gọn',
-                        }]}
-                        icons={[
-                            {
-                                icon: (this.state.isCollapsed ? 'arrow-down-icon' : 'arrow-up-icon') + ' icon24'
-                            }
-                        ]}
-                        revert={true}
-                        click={this.toggle}
-                        className='center-button'
-                    />
+                    {
+                        userProfile?.uid ?
+                            <Fragment>
+                                <div className='title'>ĐÁNH GIÁ CỦA BẠN</div>
+                                <RateField
+                                    bookId={this.props.uid}
+                                    userProfile={userProfile}
+                                />
+                            </Fragment>
+                            : null
+                    }
+                    {
+                        datas?.length && userProfile?.uid ? <div className='margin'></div> : null
+                    }
+                    {
+                        datas?.length ?
+                            <Fragment>
+                                <div className='title'>ĐÁNH GIÁ CỦA NGƯỜI DÙNG KHÁC</div>
+                                <div className='reviews'>
+                                    {datas.map(data =>
+                                        <RateItem {...data} key={data.uid} />
+                                    )}
+                                </div>
+                                {
+                                    totalRates > pageSize ?
+                                        <IrisPagination
+                                            totalRows={totalRates}
+                                            pageSize={pageSize}
+                                            pageNo={page}
+                                            handlePagination={this.handlePagination}
+                                        /> :
+                                        null
+                                }
+                            </Fragment> :
+                            null
+                    }
                 </div> : null
         )
     }
 }
+
+export default withUserProfile(BookRate);

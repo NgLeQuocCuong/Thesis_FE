@@ -1,9 +1,9 @@
 import React from 'react';
 
 const ProfileContext = React.createContext({
-    name: '',
+    name: null,
     isAdmin: false,
-    uid: 0,
+    uid: null,
     reloadUserData: () => { },
 });
 
